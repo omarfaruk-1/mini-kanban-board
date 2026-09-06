@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 import { Plus, Search, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import {
@@ -17,7 +21,7 @@ import Modal from "@/components/common/Modal";
 import Spinner from "@/components/common/Spinner";
 import EmptyState from "@/components/common/EmptyState";
 
-export default function BoardsPage() {
+function BoardsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -35,12 +39,8 @@ export default function BoardsPage() {
   }, [authLoading, user, router]);
 
   useEffect(() => {
-    if (
-      searchParams.get("accessDenied") === "true"
-    ) {
-      toast.error(
-        "You don't have access to this board",
-      );
+    if (searchParams.get("accessDenied") === "true") {
+      toast.error("You don't have access to this board");
 
       router.replace("/boards");
     }
@@ -54,7 +54,6 @@ export default function BoardsPage() {
         .getBoards()
         .then(setBoards)
         .catch((e) => {
-          // Do not show another toast for an authorization error.
           if (e.status === 401 || e.status === 403) {
             return;
           }
@@ -252,5 +251,19 @@ export default function BoardsPage() {
         />
       </Modal>
     </main>
+  );
+}
+
+export default function BoardsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Spinner size="lg" />
+        </div>
+      }
+    >
+      <BoardsPageContent />
+    </Suspense>
   );
 }
