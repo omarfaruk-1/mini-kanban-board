@@ -308,7 +308,7 @@ async function refreshToken(req, res, next) {
 
         // New access token
         const accessToken = jwt.sign(
-            { userId: user.id },
+            { userId: user.id, sessionId: session.id },
             appConfig.JWT_ACCESS_TOKEN,
             { expiresIn: "15m" }
         );
