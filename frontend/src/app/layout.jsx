@@ -2,7 +2,10 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 
-export const metadata = { title: "Mini Kanban", description: "Collaborative Kanban board" };
+export const metadata = {
+  title: "Mini Kanban",
+  description: "Collaborative Kanban board",
+};
 
 export default function RootLayout({ children }) {
   return (

@@ -7,7 +7,9 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  useEffect(() => { if (!loading && user) router.replace("/boards"); }, [user, loading, router]);
+  useEffect(() => {
+    if (!loading && user) router.replace("/boards");
+  }, [user, loading, router]);
   if (loading) return null;
   return <LoginForm />;
 }
